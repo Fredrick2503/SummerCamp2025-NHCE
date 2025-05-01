@@ -37,21 +37,24 @@ app.get('/', (req, res) => {
 
 // Route to list files
 app.get('/files', (req, res) => {
-  const dirPath = path.join(__dirname, 'public', req.query.path || '');
+    // const dirPath = path.join(__dirname, 'public', req.query.path || '');
 
-  fs.readdir(dirPath, { withFileTypes: true }, (err, files) => {
-    if (err) {
-      return res.status(500).send(err);
-    }
+    // fs.readdir(dirPath, { withFileTypes: true }, (err, files) => {
+    //     if (err) {
+    //         return res.status(500).send(err);
+    //     }
 
-    const fileData = files.map(file => ({
-      name: file.name,
-      path: path.join(req.query.path || '', file.name),
-      isDirectory: file.isDirectory(),
-    }));
-    res.json(fileData);
-  });
-});
+    //     const fileData = files
+    //         .filter(file => file.isFile() && file.name.endsWith('.html'))
+    //         .map(file => ({
+    //             name: file.name,
+    //             path: path.join(req.query.path || '', file.name),
+    //         }));
+    const fileData = ["1.html", "2.html", "3.html","1.html", "2.html", "3.html","1.html", "2.html", "3.html","1.html", "2.html", "3.html","1.html", "2.html", "3.html","1.html", "2.html", "3.html","1.html", "2.html", "3.html","1.html", "2.html", "3.html","1.html", "2.html", "3.html","1.html", "2.html", "3.html","1.html", "2.html", "3.html","1.html", "2.html", "3.html","1.html", "2.html", "3.html","1.html", "2.html", "3.html","1.html", "2.html", "3.html",].map(file => ({
+        name: file.slice(0,-5),link:file}));
+        res.json(fileData);
+    });
+// });
 
 // Start local server (won’t be used on Vercel, but safe to keep for dev)
 app.listen(3000, () => {

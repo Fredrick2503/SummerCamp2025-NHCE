@@ -1,57 +1,131 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Summer Camo 2025 @ NHCE</title>
-  
+  <title>Summer Camp 2025 @ NHCE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Bytesized&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-    *{
+
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
       font-family: Roboto;
     }
-    .container{
+
+    .container {
       width: 100vw;
       height: 100vh;
-      background-image: url("/bg.jpg");
-      background-image: url(/bg.jpg), linear-gradient(to right, #f4fafa, #f4f8fc);
+      background-image: url("/bg.jpg"), linear-gradient(to right, #f4fafa, #f4f8fc);
       background-clip: content-box;
-      background-size:contain;
+      background-size: contain;
       background-position-y: bottom;
       background-repeat: no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
 
-    }
-    h1{
+    h1 {
+      padding: 8px 12px;
       text-align: center;
+      font-size: clamp(24px, 5vw, 48px);
     }
-    a{
+
+    ul {
+  padding: 4px 12px;
+  height: 90vh;
+  overflow-y: auto;
+  width: 100%;
+  max-width: 500px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+  list-style: none;
+  scroll-snap-type: y mandatory;
+
+}
+
+    li {
+      padding: 4px 12px;
+      margin: 4px 0;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      scroll-snap-align: start;
+    }
+
+    li:hover {
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    a {
       text-decoration: none;
-      color:#000;
+      color: #000;
+      margin-left: auto;
+    }
+
+    span {
+      flex: 1;
+      word-break: break-word;
+    }
+
+    @media (max-width: 600px) {
+      ul {
+        max-height: 70vh;
+        font-size: 0.9rem;
+      }
+
+      li {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      a {
+        margin-left: 0;
+        margin-top: 4px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-  <h1>Welcome to Summer Camp NHCE</h1>
-  <ul id="file-list"></ul>
+    <h1>Welcome to Summer Camp NHCE</h1>
   </div>
   <script>
     function fetchFiles(path) {
       fetch(`/files?path=${path || ''}`)
         .then(response => response.json())
         .then(data => {
-          const fileList = document.getElementById('file-list');
+          let fileList = document.getElementById('fileList');
+          if (!fileList) {
+            fileList = document.createElement('ul');
+            fileList.id = 'fileList';
+            document.getElementsByClassName("container")[0].appendChild(fileList);
+          }
           fileList.innerHTML = '';
+
           data.forEach(file => {
-            fileList.innerHTML = fileList.innerHTML + "<li>";
-            const listItem = document.createElement('a');
-            listItem.textContent = file.name;
-            listItem.href="/"+file.name
+            const listItem = document.createElement('li');
+
+            const name = document.createElement("span");
+            name.textContent = file.name;
+            listItem.appendChild(name);
+
+            const item = document.createElement('a');
+            item.textContent = "My page";
+            item.href = "/" + file.link;
+
+            listItem.appendChild(item);
             fileList.appendChild(listItem);
-            fileList.innerHTML = fileList.innerHTML + "</li>";
           });
         });
     }
+
     fetchFiles();
   </script>
 </body>
