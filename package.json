@@ -1,0 +1,30 @@
+{
+  "name": "web_dev_workshop",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fredrick2503/SummerCamp2025-NHCE.git"
+  },
+  "keywords": [
+    "Summer",
+    "camp"
+  ],
+  "author": "fredrick.george.f.25@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fredrick2503/SummerCamp2025-NHCE/issues"
+  },
+  "homepage": "https://github.com/Fredrick2503/SummerCamp2025-NHCE#readme",
+  "description": "",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0"
+  }
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Summer Camo 2025 @ NHCE</title>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bytesized&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: Roboto;
+    }
+    .container{
+      width: 100vw;
+      height: 100vh;
+      background-image: url("/bg.jpg");
+      background-image: url(/bg.jpg), linear-gradient(to right, #f4fafa, #f4f8fc);
+      background-clip: content-box;
+      background-size:contain;
+      background-position-y: bottom;
+      background-repeat: no-repeat;
+
+    }
+    h1{
+      text-align: center;
+    }
+    a{
+      text-decoration: none;
+      color:#000;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+  <h1>Welcome to Summer Camp NHCE</h1>
+  <ul id="file-list"></ul>
+  </div>
+  <script>
+    function fetchFiles(path) {
+      fetch(`/files?path=${path || ''}`)
+        .then(response => response.json())
+        .then(data => {
+          const fileList = document.getElementById('file-list');
+          fileList.innerHTML = '';
+          data.forEach(file => {
+            fileList.innerHTML = fileList.innerHTML + "<li>";
+            const listItem = document.createElement('a');
+            listItem.textContent = file.name;
+            listItem.href="/"+file.name
+            fileList.appendChild(listItem);
+            fileList.innerHTML = fileList.innerHTML + "</li>";
+          });
+        });
+    }
+    fetchFiles();
+  </script>
+</body>
+</html>
