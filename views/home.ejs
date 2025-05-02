@@ -3,7 +3,7 @@
 <head>
   <title>Summer Camp 2025 @ NHCE</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <link rel="shortcut icon" href="https://img.icons8.com/color/48/camping-tent.png" type="image/x-icon">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Bytesized&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
@@ -78,7 +78,7 @@
       animation-delay: 1s;
     }
     ul {
-      padding: 4px 12px;
+      padding: 4px 4px;
       margin: 0 20px;
       margin-top: 20px;
       height: 70vh;
@@ -87,8 +87,8 @@
       max-width: 500px;
       background-color: rgba(255, 255, 255, 0.5);
       border-radius: 8px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       list-style: none;
       opacity: 0;
       transform: translateY(20px);
@@ -100,19 +100,23 @@
 
     li {
       padding: 8px 12px;
-      margin: 4px 0;
-      border-radius: 4px;
+      margin: 0 4px;
+      /* border-radius: 8px; */
       display: flex;
       justify-content: space-between;
       align-items: center;
       /* flex-wrap: wrap; */
       font-size: clamp(16px, 5vw, 24px);
       border-top: 1px solid rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
       scroll-snap-align: start;
+      cursor:default;
     }
 
     li:hover {
-      background-color: rgba(255, 255, 255, 0.8);
+      background-color: rgba(255, 255, 255, 0.2); 
+      /* backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px); */
     }
 
     a {
