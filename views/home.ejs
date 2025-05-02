@@ -11,7 +11,32 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: Roboto;
+      font-family: Roboto, sans-serif;
+    }
+
+    body {
+      overflow: hidden;
+    }
+
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #ffffff;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    .loading-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
     }
 
     .container {
@@ -26,35 +51,62 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      /* padding: 1rem;  */
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+      animation-delay: 0.5s;
     }
 
     h1 {
       padding: 8px 12px;
       text-align: center;
-      font-size: clamp(24px, 5vw, 48px);
+      font-size: clamp(28px, 5vw, 40px);
+      font-weight: 600;
+      opacity: 0;
+      /* transform: translateY(-20px); */
+      animation: h1slideUpFade 1s ease forwards;
+      animation-delay: 1s;
+    }
+    .subtitle{
+      padding: 8px 12px;
+      text-align: center;
+      font-size: clamp(24px, 5vw, 32px);
+      /* font-weight: 900; */
+      opacity: 0;
+      /* transform: translateY(-20px); */
+      animation: h1slideUpFade 1s ease forwards;
+      animation-delay: 1s;
+    }
+    ul {
+      padding: 4px 12px;
+      margin: 0 20px;
+      margin-top: 20px;
+      height: 70vh;
+      overflow-y: auto;
+      width: 100%;
+      max-width: 500px;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      list-style: none;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideUpFadeIn 1s ease forwards;
+      animation-delay: 1.5s;
+      scroll-snap-type: y mandatory;
+      box-shadow: #75757542 0px 0px 10px 0px;
     }
 
-    ul {
-  padding: 4px 12px;
-  height: 90vh;
-  overflow-y: auto;
-  width: 100%;
-  max-width: 500px;
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 4px;
-  list-style: none;
-  scroll-snap-type: y mandatory;
-
-}
-
     li {
-      padding: 4px 12px;
+      padding: 8px 12px;
       margin: 4px 0;
       border-radius: 4px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
+      /* flex-wrap: wrap; */
+      font-size: clamp(16px, 5vw, 24px);
       border-top: 1px solid rgba(0, 0, 0, 0.1);
       scroll-snap-align: start;
     }
@@ -66,23 +118,61 @@
     a {
       text-decoration: none;
       color: #000;
-      margin-left: auto;
+      /* margin-left: auto; */
     }
 
     span {
-      flex: 1;
+      /* flex: 0.5; */
       word-break: break-word;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+    @keyframes h1slideUpFade {
+      0% {
+        transform: translateY(150%); 
+        opacity: 0;
+        /* font-size: 60px; */
+      }
+      40% {
+        opacity: 0.5;
+        /* transform: translateY(0%); */
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0%);
+        /* font-size: clamp(24px, 5vw, 48px); */
+      }
+    }
+
+    @keyframes slideDownFadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideUpFadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     @media (max-width: 600px) {
       ul {
-        max-height: 70vh;
+        width: 90%;
+        max-height: 60vh;
         font-size: 0.9rem;
       }
 
       li {
-        flex-direction: column;
-        align-items: flex-start;
+        /* flex-direction: column;
+        align-items: flex-start; */
+
       }
 
       a {
@@ -93,20 +183,27 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Welcome to Summer Camp NHCE</h1>
+  <!-- Flash screen -->
+  <div class="loading-screen" id="loadingScreen">
+    Loading...
   </div>
+
+  <!-- Main content -->
+  <div class="container" id="mainContent">
+    <h1>Welcome to Summer Camp NHCE</h1>
+    <p class="subtitle">Introduction to WEB development Workshop</p>
+    <ul id="fileList"></ul>
+  </div>
+
   <script>
+    const loadingScreen = document.getElementById('loadingScreen');
+    const mainContent = document.getElementById('mainContent');
+    const fileList = document.getElementById('fileList');
+
     function fetchFiles(path) {
       fetch(`/files?path=${path || ''}`)
         .then(response => response.json())
         .then(data => {
-          let fileList = document.getElementById('fileList');
-          if (!fileList) {
-            fileList = document.createElement('ul');
-            fileList.id = 'fileList';
-            document.getElementsByClassName("container")[0].appendChild(fileList);
-          }
           fileList.innerHTML = '';
 
           data.forEach(file => {
@@ -123,10 +220,20 @@
             listItem.appendChild(item);
             fileList.appendChild(listItem);
           });
+
+          // Hide loading screen and reveal content
+          loadingScreen.classList.add('hidden');
+          // Animation already kicks in from CSS
+        })
+        .catch(err => {
+          loadingScreen.textContent = "Failed to load content!";
+          console.error(err);
         });
     }
 
-    fetchFiles();
+    window.addEventListener("DOMContentLoaded", () => {
+      fetchFiles();
+    });
   </script>
 </body>
 </html>
