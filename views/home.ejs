@@ -206,30 +206,39 @@
     const mainContent = document.getElementById('mainContent');
     const fileList = document.getElementById('fileList');
 
+    let currentData = [];
+
     function fetchFiles(path) {
-      fetch(`/files?path=${path || ''}`)
+      fetch(`/files?path=${path || ''}`, {
+        method: 'GET',
+        headers: {
+          'Cache-Control': 'max-age=60, must-revalidate'  // Cache for 60 seconds
+        }
+      })
         .then(response => response.json())
         .then(data => {
-          fileList.innerHTML = '';
+          if (JSON.stringify(currentData) !== JSON.stringify(data)) {
+            currentData = data;
+            fileList.innerHTML = '';
 
-          data.forEach(file => {
-            const listItem = document.createElement('li');
+            data.forEach(file => {
+              const listItem = document.createElement('li');
 
-            const name = document.createElement("span");
-            name.textContent = file.name;
-            listItem.appendChild(name);
+              const name = document.createElement("span");
+              name.textContent = file.name;
+              listItem.appendChild(name);
 
-            const item = document.createElement('a');
-            item.textContent = "My page";
-            item.href = "/" + file.link;
+              const item = document.createElement('a');
+              item.textContent = "My page";
+              item.href = "/" + file.link;
 
-            listItem.appendChild(item);
-            fileList.appendChild(listItem);
-          });
+              listItem.appendChild(item);
+              fileList.appendChild(listItem);
+            });
 
-          // Hide loading screen and reveal content
-          loadingScreen.classList.add('hidden');
-          // Animation already kicks in from CSS
+            // Hide loading screen and reveal content
+            loadingScreen.classList.add('hidden');
+          }
         })
         .catch(err => {
           loadingScreen.textContent = "Failed to load content!";
@@ -238,7 +247,13 @@
     }
 
     window.addEventListener("DOMContentLoaded", () => {
+      // First load the data
       fetchFiles();
+
+      // Periodically fetch data every 2 seconds
+      setInterval(() => {
+        fetchFiles(); // Re-fetch the data every 2 seconds
+      }, 5000);
     });
   </script>
 </body>
