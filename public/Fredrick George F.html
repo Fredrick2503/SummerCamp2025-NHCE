@@ -23,9 +23,11 @@
       flex-direction: column;
       align-items: center;
     }
-    hr{
+
+    hr {
       width: 100%;
     }
+
     header {
 
       width: 100vw;
@@ -55,13 +57,14 @@
       transition: opacity 0.5s ease, visibility 0.5s ease;
     }
 
-    section{
+    section {
       height: 80svh;
       width: 60vw;
       overflow-y: scroll;
       scrollbar-width: thin;
       scrollbar-color: #88888820 #f4fafa00;
     }
+
     div {
       height: 50%;
       width: 100%;
@@ -78,17 +81,17 @@
       aspect-ratio: 1/1;
       border-radius: 50%;
     }
+
     @media (max-width: 600px) {
-      section{
+      section {
         width: 100vw;
       }
     }
-
   </style>
   <script>
-    const showcontact=()=>{
+    const showcontact = () => {
       const name = document.getElementById("name").value;
-      if(name.length==0){
+      if (name.length == 0) {
         alert("Please enter your name");
         return;
       }
@@ -116,12 +119,16 @@
         necessitatibus dolorem error impedit iste ipsum maxime itaque voluptas atque ipsa expedita quae eligendi
         reiciendis sequi illo odio non. Eum.</p>
     </div>
-    <hr/>
+    <hr />
     <div>
       <h2>Contact me</h2>
+      <p>
         <label for="name">Name</label>
         <input type="text" name="name" id="name">
+      </p>
+      <p>
         <button onclick="showcontact()">Submit</button>
+      </p>
     </div>
   </section>
   <hr />
